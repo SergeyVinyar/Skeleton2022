@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Test application</string>
+
+    <string name="product_list_fragment_name">Products</string>
+    <string name="product_fragment_name">Product details</string>
+
+    <string name="price_not_available">Price is not available</string>
+    <string name="readable_price">%1$.2f %2$s</string>
+
+    <string name="refresh_button">Refresh</string>
+</resources>
