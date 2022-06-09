@@ -19,3 +19,7 @@ The JetPack Navigation framework does the navigation. Yes, it's an overengineeri
 Views are classic layouts within fragments plus a single main activity. The loading and the error screens are fully implemented; the error screens have refresh buttons; the list screen has an integrated SwipeRefreshLayout.
 
 The network requests are implemented via Retrofit with JSON parsing made by GSON. All the requests are logged via HttpLoggingInterceptor by Square.
+
+-------------
+
+Branch *compose* contains composable functions instead of classical views and fragments. The navigation is made via Compose Navigation Framework. Actually, each screen is a set of two things: a composable function and a ViewModel. ViewModels are injected into their respectful composable functions.
