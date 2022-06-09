@@ -6,8 +6,11 @@ import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.Assert
 import org.junit.Test
 import ru.vinyarsky.testapplication.domain.models.Product
@@ -47,7 +50,13 @@ class InteractorTest {
     @Test
     fun `getProductList invokes repository and then uses cache`() = runTest {
         // Prepare
-        val interactor = Interactor(repository)
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val interactor = Interactor(
+            repository = repository,
+            dispatcherIO = dispatcher
+        )
 
         // Do
         val actualProductList1 = interactor.getProductList()
@@ -62,7 +71,13 @@ class InteractorTest {
     @Test
     fun `getProductList invokes repository once after cache invalidating`() = runTest {
         // Prepare
-        val interactor = Interactor(repository)
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val interactor = Interactor(
+            repository = repository,
+            dispatcherIO = dispatcher
+        )
 
         // Do
         val actualProductList1 = interactor.getProductList()
@@ -84,7 +99,13 @@ class InteractorTest {
     @Test
     fun `getProductById invokes Repository and filters out required product using cache`() = runTest {
         // Prepare
-        val interactor = Interactor(repository)
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val interactor = Interactor(
+            repository = repository,
+            dispatcherIO = dispatcher
+        )
 
         // Do
         val actualProduct1 = interactor.getProductById(productId = 1)
@@ -99,7 +120,13 @@ class InteractorTest {
     @Test
     fun `getProductById invokes repository once after cache invalidating`() = runTest {
         // Prepare
-        val interactor = Interactor(repository)
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+
+        val interactor = Interactor(
+            repository = repository,
+            dispatcherIO = dispatcher
+        )
 
         // Do
         val actualProduct1 = interactor.getProductById(productId = 1)

@@ -5,12 +5,13 @@ import ru.vinyarsky.testapplication.domain.models.Product
 import java.util.concurrent.atomic.AtomicReference
 
 class Interactor(
-    private val repository: Repository
+    private val repository: Repository,
+    private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     private var cache = AtomicReference<Deferred<List<Product>>>(null)
 
-    private suspend fun getCacheOrNetwork(): List<Product> = coroutineScope {
+    private suspend fun getCacheOrNetwork(): List<Product> = withContext(dispatcherIO) {
         cache.updateAndGet { oldValue ->
             oldValue ?: async(start = CoroutineStart.LAZY) {
                 repository.getProducts()

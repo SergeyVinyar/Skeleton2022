@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../layout/compose-model-1654598343297.xml" value="0.1" />
+        <entry key="../../../layout/compose-model-1654607129808.xml" value="0.375" />
+        <entry key="../../../layout/compose-model-1654683302489.xml" value="0.73224043715847" />
+        <entry key="../../../layout/compose-model-1654683302526.xml" value="0.5982142857142857" />
+        <entry key="../.gradle/caches/transforms-3/647a4cb4af0ae13996c2308857c931d9/transformed/appcompat-1.2.0/res/drawable/abc_ratingbar_small_material.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_add_city.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_city_list.xml" value="0.10612968591691996" />
         <entry key="app/src/main/res/layout/fragment_city_list_list.xml" value="0.1" />

@@ -13,8 +13,8 @@ class ViewModelFactory(
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         when (modelClass) {
-            ProductListViewModel::class.java -> ProductListViewModel(interactor) as T
-            ProductViewModel::class.java -> ProductViewModel(interactor) as T
+            ProductListViewModel::class.java -> ProductListViewModel(interactor)
+            ProductViewModel::class.java -> ProductViewModel(interactor)
             else -> throw IllegalArgumentException()
-        }
+        } as T
 }

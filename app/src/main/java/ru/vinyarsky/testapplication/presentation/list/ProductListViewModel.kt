@@ -1,12 +1,12 @@
 package ru.vinyarsky.testapplication.presentation.list
 
-import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.vinyarsky.testapplication.domain.Interactor
 import ru.vinyarsky.testapplication.domain.models.Product
@@ -15,8 +15,8 @@ class ProductListViewModel(
     private val interactor: Interactor
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<State>(State.Loading)
-    val state: StateFlow<State> = _state
+    private val _uiState: MutableState<UiState> = mutableStateOf(UiState.Loading)
+    val uiUiState: State<UiState> = _uiState
 
     private var refreshDataJob: Job? = null
 
@@ -32,18 +32,18 @@ class ProductListViewModel(
         fromSwipeToRefresh: Boolean
     ) {
         refreshDataJob?.cancel()
-        refreshDataJob = viewModelScope.launch(Dispatchers.Default) {
+        refreshDataJob = viewModelScope.launch {
             if (!fromSwipeToRefresh) {
-                _state.value = State.Loading
+                _uiState.value = UiState.Loading
             }
             try {
                 if (withCacheInvalidation) {
                     interactor.invalidateCache()
                 }
-                _state.value = State.Success(interactor.getProductList())
+                _uiState.value = UiState.Success(interactor.getProductList())
             } catch (e: Exception) {
                 // Yeah, not a good idea to show internal messages to the customer
-                _state.value = State.Failed(e.message)
+                _uiState.value = UiState.Failed(e.message)
             }
         }
     }
@@ -55,10 +55,10 @@ class ProductListViewModel(
         )
     }
 
-    sealed class State {
-        object Loading : State()
-        data class Failed(val errorMessage: String?) : State()
-        data class Success(val data: List<Product>) : State() {
+    sealed class UiState {
+        object Loading : UiState()
+        data class Failed(val errorMessage: String?) : UiState()
+        data class Success(val data: List<Product>) : UiState() {
             override fun equals(other: Any?): Boolean {
                 // Weird but states with the same content are not same states.
                 // We could have avoided it, but SwipeRefreshLayout
